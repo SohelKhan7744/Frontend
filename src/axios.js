@@ -2,7 +2,7 @@ import axios from "axios";
 
 
 
-const api = axios.create({ baseURL: process.env.REACT_APP_API_BASE_URL});
+const api = axios.create({ baseURL: "https://fullstack-production-522c.up.railway.app/"});
 
 // Attach token automatatically
 
