@@ -61,7 +61,7 @@ function EditStudent() {
     }
   };
 
-  if (loading) return <EditSkeleton />;
+  if (loading) return <EditSkeleton/>;
 
   return (
     <div className="p-6 bg-gray-900 min-h-screen text-white">

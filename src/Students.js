@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import api from "./axios";
 import { Link } from "react-router-dom";
-import TableSkeleton from "./SkeletonTable";
-import CardSkeleton from "./SkeletonCard";
+import StudentCardSkeleton from "./StudentSkeleton";
+import StudentTableSkeleton from "./StudentTableSkeleton";
 
 
 function Students() {
@@ -58,7 +58,7 @@ function Students() {
 
             <tbody>
               {loading?(
-                  <TableSkeleton/>
+                  <StudentTableSkeleton/>
               ) : students.length === 0 ? (
                 <tr>
                   <td colSpan="5" className="px-4 py-6 text-center">
@@ -97,7 +97,7 @@ function Students() {
         {/* Mobile Cards */}
         <div className="md:hidden divide-y divide-gray-700">
           {loading ? (
-           <CardSkeleton/>
+           <StudentCardSkeleton/>
           ) : students.length === 0 ? (
             <div className="p-4 text-center">No students found</div>
           ) : (
