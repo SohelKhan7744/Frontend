@@ -2,11 +2,13 @@ import { useState } from "react";
 import { login, register } from "./Service";
 import { useNavigate } from "react-router-dom";
 import { redirectByRole } from "./redirectByrole";
+import { toast } from "react-toastify";
 
 function Register(){
     const navigate = useNavigate();
 
     const [showPassword,setShowPassword] = useState(false);
+    const [error,setError] = useState({});
 
    const [form,setForm] = useState({
     username: "",
@@ -22,12 +24,21 @@ function Register(){
    };
 const handleRegistar = async (e) => {
   e.preventDefault();
+  setError({});
   try {
     await register(form);
     alert("Registration successful. Please login.");
     navigate("/login");
   } catch (err) {
-    alert("Registration failed");
+    if (err.response) {
+      const status = err.response.status;
+
+      if(status == 409){
+        setError(err.response.data.errors || {})
+      } else{
+        toast.error("Something went wrong");
+      }
+    }
   }
 };
 
