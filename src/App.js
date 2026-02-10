@@ -69,7 +69,7 @@ function App() {
           <Route path="/admin/teacher/edit/:id" element={<EditTeacher />} />
           <Route path="/admin/teacher/assign/:username" element ={<AssignTeacherToCourse/>}/>
           <Route path="admin/courses" element={<Courses/>} />
-
+          <Route path="/admin/course/edit/:id" element={<EditCourse />} />
           <Route
             path="/admin/dashboard"
             element={

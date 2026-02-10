@@ -42,8 +42,7 @@ function Courses() {
               <tr>
                 <th className="px-4 py-3">ID</th>
                 <th className="px-4 py-3">Course Name</th>
-                <th className="px-4 py-3">Category</th>
-                <th className="px-4 py-3">Duration</th>
+                <th className="px-4 py-3">Description</th>
                 <th className="px-4 py-3">Actions</th>
               </tr>
             </thead>
