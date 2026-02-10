@@ -68,7 +68,7 @@ function Courses() {
                       <td className="px-4 py-3">{c.description}</td>
                       <td className="px-4 py-3">
                         <Link
-                          to={`/admin/course/edit/${c.id}`}
+                          to={`/admin/courses/edit/${c.id}`}
                           className="text-blue-400 hover:underline"
                         >
                           Edit
