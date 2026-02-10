@@ -15,7 +15,7 @@ function EditTeacher() {
     phone: "",
     image_url: "",
     experience: "",
-    qualifications: ""
+    qualification: ""
   });
 
   // Load previous data
@@ -106,7 +106,7 @@ function EditTeacher() {
                   <input
                     className="form-control"
                     name="qualifications"
-                    value={form.qualifications}
+                    value={form.qualification}
                     onChange={handleChange}
                   />
                 </div>
