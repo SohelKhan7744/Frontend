@@ -65,9 +65,8 @@ function Courses() {
                       className="border-t border-gray-700 hover:bg-gray-700/40"
                     >
                       <td className="px-4 py-3">{c.id}</td>
-                      <td className="px-4 py-3">{c.name}</td>
-                      <td className="px-4 py-3">{c.category}</td>
-                      <td className="px-4 py-3">{c.duration}</td>
+                      <td className="px-4 py-3">{c.title}</td>
+                      <td className="px-4 py-3">{c.description}</td>
                       <td className="px-4 py-3">
                         <Link
                           to={`/admin/course/edit/${c.id}`}
@@ -96,17 +95,12 @@ function Courses() {
                 <div key={c.id} className="p-4 space-y-2">
                   <div className="flex justify-between">
                     <span className="text-gray-400 text-sm">Course</span>
-                    <span>{c.name}</span>
+                    <span>{c.title}</span>
                   </div>
 
                   <div className="flex justify-between">
                     <span className="text-gray-400 text-sm">Category</span>
-                    <span>{c.category}</span>
-                  </div>
-
-                  <div className="flex justify-between">
-                    <span className="text-gray-400 text-sm">Duration</span>
-                    <span>{c.duration}</span>
+                    <span>{c.description}</span>
                   </div>
 
                   <Link
