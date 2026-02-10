@@ -77,7 +77,7 @@ return(
       value={form.phone}
      placeholder="Enter Phone"
      onChange={handleChange} 
-      className={`px-4 py-2 rounded bg-gray-700 text-white focus:ring-blue-500
+      className={`px-4 py-2 rounded bg-gray-700 text-white 
       ${error.phone ? "border border-red-500" : ""}`}/>
 
      {error.phone && (
