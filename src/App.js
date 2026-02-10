@@ -5,7 +5,7 @@ import Login from "./Login";
 import Register from "./Register";
 import ProtectedRoute from "./Protected";
 
-import AdminLayout from "./AdminLayout";
+import AdminLayout from "./AdminOutlat";
 import DashboardPage from "./DashBoardPage";
 import Students from "./Students";
 import EditStudent from "./EditStudent";
