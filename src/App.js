@@ -20,6 +20,7 @@ function App() {
     <>
       <Routes>
   {/* public routes */}
+   <Route path="/" element={<Login/>}/>
   <Route path="/login" element={<Login />} />
   <Route path="/register" element={<Register />} />
 
@@ -32,6 +33,7 @@ function App() {
       </ProtectedRoute>
     }
   >
+   
     <Route path="dashboard" element={<DashboardPage />} />
     <Route path="student" element={<Students />} />
     <Route path="student/edit/:id" element={<EditStudent />} />
