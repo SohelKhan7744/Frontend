@@ -1,23 +1,20 @@
 import { Outlet } from "react-router-dom";
-import Header from "./Header";
-import Menu from "./Menu";
 
 function AdminLayout() {
   return (
-    <div className="flex h-screen bg-gray-900 text-white">
-      {/* Sidebar */}
-      <Menu/>
+    <div className="wrapper">
+      {/* AdminLTE sidebar + navbar already exist */}
 
-      {/* Main Content */}
-      <div className="flex flex-col flex-1 overflow-hidden">
-        <Header/>
-
-        <main className="flex-1 overflow-y-auto p-4 md:p-6">
-          <Outlet />
-        </main>
+      <div className="content-wrapper bg-gray-900 text-white">
+        <section className="content">
+          <div className="container-fluid p-4 md:p-6">
+            <Outlet />
+          </div>
+        </section>
       </div>
     </div>
   );
 }
+
 
 export default AdminLayout;

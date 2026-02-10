@@ -33,9 +33,9 @@ function Teachers() {
   };
 
   return (
-    <div className="p-4 md:p-6 bg-gray-900 min-h-screen text-white">
+    <div className="space-y-6">
       {/* Header */}
-      <div className="mb-6">
+      <div>
         <h1 className="text-2xl font-bold">Teachers</h1>
         <p className="text-gray-400 text-sm">Manage faculty members</p>
       </div>
