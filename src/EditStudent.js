@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import api from "./axios";
+import EditSkeleton from "./EditSkeleton";
 
 function EditStudent() {
   const { id } = useParams();
@@ -8,164 +9,153 @@ function EditStudent() {
 
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [errors, setErrors] = useState({});
 
   const [form, setForm] = useState({
-  username: "",
-  email: "",
-  phone: "",
-  image_url: "",
-  qualification: "",
-  experience: ""
-});
+    username: "",
+    email: "",
+    phone: "",
+    department: "",
+    year: ""
+  });
 
-
-  // 🔹 Load existing student data (prefill)
   useEffect(() => {
-    api.get(`/admin/student/${id}`)
-      .then(res => {
+    api
+      .get(`/admin/student/${id}`)
+      .then((res) => {
         setForm(res.data);
         setLoading(false);
       })
-      .catch(err => {
-        console.error(err);
-        alert("Failed to load student");
+      .catch(() => {
         setLoading(false);
+        alert("Failed to load student");
       });
   }, [id]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setForm(prev => ({ ...prev, [name]: value }));
+
+    setForm((prev) => ({ ...prev, [name]: value }));
+
+    if (errors[name]) {
+      setErrors((prev) => ({ ...prev, [name]: null }));
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSaving(true);
+    setErrors({});
 
     try {
-      await api.put(`/admin/teacher/${id}`, form);
-      alert("Student updated successfully");
-      navigate("/admin/teacher");
+      await api.put(`/admin/student/${id}`, form);
+      navigate("/admin/student");
     } catch (err) {
-      console.error(err);
-      alert("Update failed");
+      if (err.response?.status === 400 || err.response?.status === 409) {
+        setErrors(err.response.data.errors || {});
+      } else {
+        alert("Update failed");
+      }
     } finally {
       setSaving(false);
     }
   };
 
-  if (loading) {
-    return <div className="p-4">Loading student data...</div>;
-  }
+  if (loading) return <EditSkeleton />;
 
   return (
-    <div className="content-wrapper">
-      <div className="content-header">
-        <div className="container-fluid">
-          <h1>Edit Student</h1>
-        </div>
-      </div>
+    <div className="p-6 bg-gray-900 min-h-screen text-white">
+      <div className="max-w-xl mx-auto bg-gray-800 rounded-xl shadow-lg p-6">
+        <h1 className="text-xl font-bold mb-6">Edit Student</h1>
 
-      <section className="content">
-        <div className="container-fluid">
-          <div className="card">
-            <div className="card-body">
-
-              <form onSubmit={handleSubmit}>
-
-                {/* Username */}
-                <div className="form-group">
-                  <label>Username</label>
-                  <input
-                    className="form-control"
-                    name="username"
-                    value={form.username}
-                    disabled
-                  />
-                </div>
-
-                {/* Email */}
-                <div className="form-group">
-                  <label>Email</label>
-                  <input
-                    className="form-control"
-                    name="email"
-                    type="email"
-                    value={form.email}
-                    onChange={handleChange}
-                    required
-                  />
-                </div>
-
-                {/* Phone */}
-                <div className="form-group">
-                  <label>Phone</label>
-                  <input
-                    className="form-control"
-                    name="phone"
-                    value={form.phone}
-                    onChange={handleChange}
-                  />
-                </div>
-
-                {/* Department */}
-                <div className="form-group">
-                  <label>Department</label>
-                  <input
-                    className="form-control"
-                    name="department"
-                    value={form.department}
-                    onChange={handleChange}
-                  />
-                </div>
-
-                {/* Roll Number */}
-                <div className="form-group">
-                  <label>Roll Number</label>
-                  <input
-                    className="form-control"
-                    name="rollNumber"
-                    value={form.rollNumber}
-                    onChange={handleChange}
-                  />
-                </div>
-
-                {/* Age */}
-                <div className="form-group">
-                  <label>Age</label>
-                  <input
-                    className="form-control"
-                    type="number"
-                    name="age"
-                    value={form.age}
-                    onChange={handleChange}
-                  />
-                </div>
-
-                <div className="d-flex justify-content-between">
-                  <button
-                    type="button"
-                    className="btn btn-secondary"
-                    onClick={() => navigate(-1)}
-                  >
-                    Cancel
-                  </button>
-
-                  <button
-                    type="submit"
-                    className="btn btn-primary"
-                    disabled={saving}
-                  >
-                    {saving ? "Saving..." : "Update Student"}
-                  </button>
-                </div>
-
-              </form>
-
-            </div>
+        <form onSubmit={handleSubmit} className="space-y-5">
+          {/* Username */}
+          <div>
+            <label className="text-sm text-gray-400">Username</label>
+            <input
+              value={form.username}
+              disabled
+              className="w-full mt-1 px-3 py-2 rounded bg-gray-700 text-gray-400"
+            />
           </div>
-        </div>
-      </section>
+
+          {/* Email */}
+          <div>
+            <label className="text-sm text-gray-400">Email</label>
+            <input
+              name="email"
+              value={form.email}
+              onChange={handleChange}
+              className={`w-full mt-1 px-3 py-2 rounded bg-gray-700 text-white
+                ${errors.email ? "border border-red-500" : ""}`}
+            />
+            {errors.email && (
+              <p className="text-red-400 text-sm">{errors.email}</p>
+            )}
+          </div>
+
+          {/* Phone */}
+          <div>
+            <label className="text-sm text-gray-400">Phone</label>
+            <input
+              name="phone"
+              value={form.phone}
+              onChange={handleChange}
+              className={`w-full mt-1 px-3 py-2 rounded bg-gray-700 text-white
+                ${errors.phone ? "border border-red-500" : ""}`}
+            />
+            {errors.phone && (
+              <p className="text-red-400 text-sm">{errors.phone}</p>
+            )}
+          </div>
+
+          {/* Department */}
+          <div>
+            <label className="text-sm text-gray-400">Department</label>
+            <input
+              name="department"
+              value={form.department}
+              onChange={handleChange}
+              className="w-full mt-1 px-3 py-2 rounded bg-gray-700 text-white"
+            />
+          </div>
+
+          {/* Year */}
+          <div>
+            <label className="text-sm text-gray-400">Year</label>
+            <input
+              type="number"
+              name="year"
+              value={form.year}
+              onChange={handleChange}
+              className={`w-full mt-1 px-3 py-2 rounded bg-gray-700 text-white
+                ${errors.year ? "border border-red-500" : ""}`}
+            />
+            {errors.year && (
+              <p className="text-red-400 text-sm">{errors.year}</p>
+            )}
+          </div>
+
+          {/* Buttons */}
+          <div className="flex justify-between pt-4">
+            <button
+              type="button"
+              onClick={() => navigate(-1)}
+              className="px-4 py-2 rounded bg-gray-600 hover:bg-gray-500"
+            >
+              Cancel
+            </button>
+
+            <button
+              type="submit"
+              disabled={saving}
+              className="px-5 py-2 rounded bg-blue-600 hover:bg-blue-700 disabled:opacity-50"
+            >
+              {saving ? "Saving..." : "Update Student"}
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 }

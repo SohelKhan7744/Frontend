@@ -120,7 +120,7 @@ function EditTeacher() {
             <label className="text-sm text-gray-400">Qualifications</label>
             <input
               name="qualifications"
-              value={form.qualifications}
+              value={form.qualification}
               onChange={handleChange}
               className="w-full mt-1 px-3 py-2 rounded bg-gray-700 text-white"
             />
