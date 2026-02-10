@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import api from "./axios";
+import { toast } from "react-toastify";
 
 function EditTeacher() {
   const { id } = useParams();
@@ -8,6 +9,7 @@ function EditTeacher() {
 
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [errors,setErrors] = useState({});
 
   const [form, setForm] = useState({
     username: "",
@@ -27,7 +29,7 @@ function EditTeacher() {
       })
       .catch(err => {
         console.error(err);
-        alert("Failed to load teacher");
+        toast.error("Failed to load teacher");
         setLoading(false);
       });
   }, [id]);
@@ -35,11 +37,16 @@ function EditTeacher() {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm(prev => ({ ...prev, [name]: value }));
+
+    if(errors[name]){
+      setErrors((prev)=> ({...prev,[name]:null}))
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSaving(true);
+    setErrors({});
 
     try {
       await api.put(`/admin/teacher/${id}`, form);
@@ -47,105 +54,115 @@ function EditTeacher() {
       navigate("/admin/teacher");
     } catch (err) {
       console.error(err);
-      alert("Update failed");
+      if(err.response?.status === 409 || err.response?.status === 400){
+        setErrors(err.response.data.errors ||{})
+      }else{
+        toast.error("Update failed");
+      }
     } finally {
       setSaving(false);
     }
   };
 
   if (loading) {
-    return <div className="p-4">Loading teacher data...</div>;
+    return <EditTeacher/>;
   }
 
   return (
-    <div className="content-wrapper">
-      <div className="content-header">
-        <div className="container-fluid">
-          <h1>Edit Teacher</h1>
-        </div>
-      </div>
+   <div className="p-6 bg-gray-900 min-h-screen text-white">
+      <div className="max-w-xl mx-auto bg-gray-800 rounded-xl shadow-lg p-6">
+        <h1 className="text-xl font-bold mb-6">Edit Teacher</h1>
 
-      <section className="content">
-        <div className="container-fluid">
-          <div className="card">
-            <div className="card-body">
-              <form onSubmit={handleSubmit}>
-
-                <div className="form-group">
-                  <label>Username</label>
-                  <input
-                    className="form-control"
-                    value={form.username}
-                    disabled
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label>Email</label>
-                  <input
-                    className="form-control"
-                    name="email"
-                    value={form.email}
-                    onChange={handleChange}
-                    required
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label>Phone</label>
-                  <input
-                    className="form-control"
-                    name="phone"
-                    value={form.phone}
-                    onChange={handleChange}
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label>Qualifications</label>
-                  <input
-                    className="form-control"
-                    name="qualifications"
-                    value={form.qualification}
-                    onChange={handleChange}
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label>Experience (years)</label>
-                  <input
-                    type="number"
-                    className="form-control"
-                    name="experience"
-                    value={form.experience}
-                    onChange={handleChange}
-                  />
-                </div>
-
-                <div className="d-flex justify-content-between">
-                  <button
-                    type="button"
-                    className="btn btn-secondary"
-                    onClick={() => navigate(-1)}
-                  >
-                    Cancel
-                  </button>
-
-                  <button
-                    type="submit"
-                    className="btn btn-primary"
-                    disabled={saving}
-                  >
-                    {saving ? "Saving..." : "Update Teacher"}
-                  </button>
-                </div>
-
-              </form>
-            </div>
+        <form onSubmit={handleSubmit} className="space-y-5">
+          {/* Username */}
+          <div>
+            <label className="text-sm text-gray-400">Username</label>
+            <input
+              value={form.username}
+              disabled
+              className="w-full mt-1 px-3 py-2 rounded bg-gray-700 text-gray-400"
+            />
           </div>
-        </div>
-      </section>
+
+          {/* Email */}
+          <div>
+            <label className="text-sm text-gray-400">Email</label>
+            <input
+              name="email"
+              value={form.email}
+              onChange={handleChange}
+              className={`w-full mt-1 px-3 py-2 rounded bg-gray-700 text-white
+                ${errors.email ? "border border-red-500" : ""}`}
+            />
+            {errors.email && (
+              <p className="text-red-400 text-sm">{errors.email}</p>
+            )}
+          </div>
+
+          {/* Phone */}
+          <div>
+            <label className="text-sm text-gray-400">Phone</label>
+            <input
+              name="phone"
+              value={form.phone}
+              onChange={handleChange}
+              className={`w-full mt-1 px-3 py-2 rounded bg-gray-700 text-white
+                ${errors.phone ? "border border-red-500" : ""}`}
+            />
+            {errors.phone && (
+              <p className="text-red-400 text-sm">{errors.phone}</p>
+            )}
+          </div>
+
+          {/* Qualifications */}
+          <div>
+            <label className="text-sm text-gray-400">Qualifications</label>
+            <input
+              name="qualifications"
+              value={form.qualifications}
+              onChange={handleChange}
+              className="w-full mt-1 px-3 py-2 rounded bg-gray-700 text-white"
+            />
+          </div>
+
+          {/* Experience */}
+          <div>
+            <label className="text-sm text-gray-400">Experience (years)</label>
+            <input
+              type="number"
+              name="experience"
+              value={form.experience}
+              onChange={handleChange}
+              className={`w-full mt-1 px-3 py-2 rounded bg-gray-700 text-white
+                ${errors.experience ? "border border-red-500" : ""}`}
+            />
+            {errors.experience && (
+              <p className="text-red-400 text-sm">{errors.experience}</p>
+            )}
+          </div>
+
+          {/* Buttons */}
+          <div className="flex justify-between pt-4">
+            <button
+              type="button"
+              onClick={() => navigate(-1)}
+              className="px-4 py-2 rounded bg-gray-600 hover:bg-gray-500"
+            >
+              Cancel
+            </button>
+
+            <button
+              type="submit"
+              disabled={saving}
+              className="px-5 py-2 rounded bg-blue-600 hover:bg-blue-700 disabled:opacity-50"
+            >
+              {saving ? "Saving..." : "Update Teacher"}
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
+
   );
 }
 
