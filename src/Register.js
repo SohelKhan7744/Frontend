@@ -55,7 +55,7 @@ return(
      value={form.username}
      placeholder="Enter UserName"
      onChange={handleChange}
-     className={`px-4 py-2 rounded bg-gray-700 text-white focus:ring-blue-500  
+     className={`px-4 py-2 rounded bg-gray-700 text-white   
         ${error.username ? "border border-red-500": ""}`} />
 
         {error.username && (
@@ -66,7 +66,7 @@ return(
       value={form.email}
      placeholder="Enter Email"
      onChange={handleChange} 
-     className={`px-4 py-2 rounded bg-gray-700 text-white focus:ring-blue-500
+     className={`px-4 py-2 rounded bg-gray-700 text-white 
       ${error.email ? "border border-red-500": ""}`} />
 
       {error.email && (
