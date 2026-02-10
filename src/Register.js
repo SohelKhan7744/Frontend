@@ -21,6 +21,10 @@ function Register(){
 
    const handleChange =(e)=>{
     setForm({...form,[e.target.name]: e.target.value});
+
+     if (error[e.target.name]) {
+    setError({ ...error, [e.target.name]: null });
+  }
    };
 const handleRegistar = async (e) => {
   e.preventDefault();
@@ -31,9 +35,8 @@ const handleRegistar = async (e) => {
     navigate("/login");
   } catch (err) {
     if (err.response) {
-      const status = err.response.status;
 
-      if(status == 409){
+      if(err.response?.status == 409){
         setError(err.response.data.errors || {})
       } else{
         toast.error("Something went wrong");
@@ -52,13 +55,23 @@ return(
      value={form.username}
      placeholder="Enter UserName"
      onChange={handleChange}
-     className="px-4 py-2 rounded bg-gray-700 text-white focus:ring-blue-500" />
+     className={`px-4 py-2 rounded bg-gray-700 text-white focus:ring-blue-500 
+        ${error.username ? "border border-red-500": ""}`} />
+
+        {error.username && (
+  <p className="text-red-400 text-sm">{error.username}</p>
+)}
 
       <input name="email"
       value={form.email}
      placeholder="Enter Email"
      onChange={handleChange} 
-     className="px-4 py-2 rounded bg-gray-700 text-white focus:ring-blue-500" />
+     className={`px-4 py-2 rounded bg-gray-700 text-white focus:ring-blue-500
+      ${error.email ? "border border-red-500": ""}`} />
+
+      {error.email && (
+  <p className="text-red-400 text-sm">{error.email}</p>
+)}
 
       <input name="phone"
       value={form.phone}
