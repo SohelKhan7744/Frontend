@@ -81,7 +81,7 @@ return(
       ${error.phone ? "border border-red-500" : ""}`}/>
 
      {error.phone && (
-  <p className="text-red-400 text-sm">{errors.phone}</p>
+  <p className="text-red-400 text-sm">{error.phone}</p>
 )}
      <div className="relative">
   <input
