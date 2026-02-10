@@ -2,17 +2,14 @@ import { Outlet } from "react-router-dom";
 
 function AdminLayout() {
   return (
-    <div className="wrapper">
-      {/* AdminLTE sidebar + navbar already exist */}
-
-      <div className="content-wrapper bg-gray-900 text-white">
-        <section className="content">
-          <div className="container-fluid p-4 md:p-6">
-            <Outlet />
-          </div>
-        </section>
-      </div>
+    <div className="content-wrapper">
+  <section className="content">
+    <div className="px-4 md:px-6 py-4">
+      <Outlet />
     </div>
+  </section>
+</div>
+
   );
 }
 
