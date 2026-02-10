@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import api from "./axios";
 import { toast } from "react-toastify";
+import EditSkeleton from "./EditSkeliton";
 
 function EditTeacher() {
   const { id } = useParams();
@@ -65,7 +66,7 @@ function EditTeacher() {
   };
 
   if (loading) {
-    return <EditTeacher/>;
+    return <EditSkeleton/>;
   }
 
   return (
