@@ -3,22 +3,30 @@ import { useState } from "react";
 import { login } from "./Service";
 import { useNavigate } from "react-router-dom";
 import { redirectByRole } from "./redirectByrole";
+import { toast } from "react-toastify";
 
 function Login() {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [loading,setLoading] = useState(false);
 
   const handleLogin = async (e) => {
-    e.preventDefault();
-    try {
-      await login(username, password);
-      redirectByRole(navigate);
-    } catch {
-      alert("Invalid credentials");
-    }
-  };
+  e.preventDefault();
+
+  if (loading) return; // extra safety
+
+  setLoading(true);
+  try {
+    await login(username, password);
+    redirectByRole(navigate);
+  } catch {
+    toast.error("Invalid credentials");
+    setLoading(false);
+  }
+};
+
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-black to-gray-900">
@@ -53,12 +61,29 @@ function Login() {
             </button>
           </div>
 
-          <button
-            type="submit"
-            className="w-full bg-blue-600 py-3 rounded-lg font-semibold text-white"
-          >
-            Login
-          </button>
+         <button
+  type="submit"
+  disabled={loading}
+  className={`
+    w-full flex items-center justify-center gap-2 py-3 rounded-lg
+    font-semibold text-white transition-all duration-300
+    ${
+      loading
+        ? "bg-blue-400 cursor-not-allowed"
+        : "bg-blue-600 hover:bg-blue-700 active:scale-95"
+    }
+  `}
+>
+  {loading ? (
+    <>
+      <span className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+      Logging in...
+    </>
+  ) : (
+    "Login"
+  )}
+</button>
+
         </form>
       </div>
     </div>
