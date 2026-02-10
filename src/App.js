@@ -65,8 +65,9 @@ function App() {
           <Route path="/admin/student" element={<Students/>}/>
           <Route path="/admin/student/edit/:id" element={<EditStudent />} />
           <Route path="/admin/teacher" element={<Teachers />} />
-           <Route path="/admin/teacher/edit/:id" element={<EditTeacher />} />
-           <Route path="/admin/teacher/assign/:username" element ={<AssignTeacherToCourse/>}/>
+          <Route path="/admin/teacher/edit/:id" element={<EditTeacher />} />
+          <Route path="/admin/teacher/assign/:username" element ={<AssignTeacherToCourse/>}/>
+          <Route path="admin/courses" element={<Courses />} />
 
           <Route
             path="/admin/dashboard"
