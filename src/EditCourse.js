@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import api from "./axios";
 import EditCourseSkeleton from "./EditCourseSkeleton";
+import { toast } from "react-toastify";
 
 function EditCourse() {
   const { id } = useParams();
@@ -27,7 +28,7 @@ function EditCourse() {
       })
       .catch(() => {
         setLoading(false);
-        alert("Failed to load course");
+        toast.error("Failed to load course");
       });
   }, [id]);
 
@@ -48,7 +49,7 @@ function EditCourse() {
 
     try {
       await api.put(`/${id}`, form);
-      navigate("/admin/course");
+      navigate("/admin/courses");
     } catch (err) {
       if (err.response?.status === 400) {
         setErrors(err.response.data.errors || {});
