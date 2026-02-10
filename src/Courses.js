@@ -103,7 +103,7 @@ function Courses() {
                   </div>
 
                   <Link
-                    to={`/admin/course/edit/${c.id}`}
+                    to={`/admin/courses/edit/${c.id}`}
                     className="inline-block text-blue-400 text-sm"
                   >
                     Edit Course →

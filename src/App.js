@@ -15,6 +15,7 @@ import Teachers from "./Teachers";
 import EditTeacher from "./EditTeacher";
 import AssignTeacherToCourse from "./AssignTeacher";
 import Courses from "./Courses";
+import EditCourse from "./EditCourse";
 
 function App() {
   const navigate = useNavigate();
@@ -69,7 +70,7 @@ function App() {
           <Route path="/admin/teacher/edit/:id" element={<EditTeacher />} />
           <Route path="/admin/teacher/assign/:username" element ={<AssignTeacherToCourse/>}/>
           <Route path="admin/courses" element={<Courses/>} />
-          <Route path="/admin/course/edit/:id" element={<EditCourse />} />
+          <Route path="/admin/courses/edit/:id" element={<EditCourse />} />
           <Route
             path="/admin/dashboard"
             element={
