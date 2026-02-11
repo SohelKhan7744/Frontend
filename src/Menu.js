@@ -39,7 +39,7 @@ function Menu (){
           {/* Add icons to the links using the .nav-icon class
          with font-awesome or any other icon font library */}
           <li className="nav-item menu-open">
-            <Link to="/dashboard" className="nav-link active">
+            <Link to="/admin/dashboard" className="nav-link active">
               <i className="nav-icon fas fa-tachometer-alt" />
               <p>
                 Dashboard
@@ -60,7 +60,7 @@ function Menu (){
                 </Link>
               </li>
               <li className="nav-item">
-                <Link to="/admin/coruses" className="nav-link">
+                <Link to="/admin/courses" className="nav-link">
                   <i className="far fa-circle nav-icon" />
                   <p>Coruse</p>
                 </Link>
