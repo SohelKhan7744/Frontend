@@ -1,63 +1,34 @@
-import React, { useEffect, useState } from "react";
-import api from "./axios";
-import { Link } from "react-router-dom";
-import StudentCardSkeleton from "./StudentSkeleton";
-import StudentTableSkeleton from "./StudentTableSkeleton";
+return (
+  <div className="relative px-8 py-6">
 
-function Students() {
-  const [students, setStudents] = useState([]);
-  const [page, setPage] = useState(1);
-  const limit = 10;
-  const [total, setTotal] = useState(0);
-  const [loading, setLoading] = useState(false);
+    {/* Soft Gradient Background Like Dashboard */}
+    <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-gray-850 to-gray-900 opacity-70 pointer-events-none"></div>
 
-  const totalPages = Math.ceil(total / limit);
+    <div className="relative z-10">
 
-  useEffect(() => {
-    fetchStudents(page);
-  }, [page]);
-
-  const fetchStudents = async (pageNumber) => {
-    try {
-      setLoading(true);
-      const res = await api.get(
-        `/admin/student?page=${pageNumber}&limit=${limit}`
-      );
-      setStudents(res.data.data);
-      setTotal(res.data.total);
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  return (
-    <div className="px-6 py-4">
-      
-      {/* Page Header */}
-      <div className="mb-6">
-        <h1 className="text-2xl font-semibold text-gray-100">
+      {/* Header */}
+      <div className="mb-8">
+        <h1 className="text-3xl font-semibold text-white">
           Students
         </h1>
-        <p className="text-gray-400 text-sm">
+        <p className="text-gray-400 text-sm mt-1">
           Manage registered students
         </p>
       </div>
 
-      {/* Main Card */}
-      <div className="bg-gray-800 rounded-xl shadow-lg border border-gray-700">
-        
-        {/* Desktop Table */}
-        <div className="hidden md:block overflow-x-auto">
+      {/* Glass Card */}
+      <div className="bg-gray-800/60 backdrop-blur-md border border-gray-700/50 rounded-2xl shadow-2xl overflow-hidden">
+
+        {/* Table */}
+        <div className="overflow-x-auto">
           <table className="w-full text-sm">
-            <thead className="bg-gray-750 text-gray-300">
-              <tr className="border-b border-gray-700">
-                <th className="px-6 py-3 text-left font-medium">ID</th>
-                <th className="px-6 py-3 text-left font-medium">Name</th>
-                <th className="px-6 py-3 text-left font-medium">Email</th>
-                <th className="px-6 py-3 text-left font-medium">Department</th>
-                <th className="px-6 py-3 text-left font-medium">Status</th>
+            <thead>
+              <tr className="border-b border-gray-700/60 text-gray-300">
+                <th className="px-8 py-4 text-left font-medium">ID</th>
+                <th className="px-8 py-4 text-left font-medium">Name</th>
+                <th className="px-8 py-4 text-left font-medium">Email</th>
+                <th className="px-8 py-4 text-left font-medium">Department</th>
+                <th className="px-8 py-4 text-left font-medium">Status</th>
               </tr>
             </thead>
 
@@ -66,7 +37,7 @@ function Students() {
                 <StudentTableSkeleton />
               ) : students.length === 0 ? (
                 <tr>
-                  <td colSpan="5" className="px-6 py-6 text-center text-gray-400">
+                  <td colSpan="5" className="px-8 py-8 text-center text-gray-400">
                     No students found
                   </td>
                 </tr>
@@ -74,29 +45,29 @@ function Students() {
                 students.map((s) => (
                   <tr
                     key={s.id}
-                    className="border-b border-gray-700 hover:bg-gray-700/40 transition"
+                    className="border-b border-gray-700/40 hover:bg-gray-700/30 transition duration-200"
                   >
-                    <td className="px-6 py-4">{s.id}</td>
+                    <td className="px-8 py-5">{s.id}</td>
 
-                    <td className="px-6 py-4">
+                    <td className="px-8 py-5">
                       <Link
                         to={`/admin/student/edit/${s.id}`}
-                        className="text-blue-400 hover:text-blue-300 hover:underline transition"
+                        className="text-blue-400 hover:text-blue-300 transition"
                       >
                         {s.username}
                       </Link>
                     </td>
 
-                    <td className="px-6 py-4 text-gray-300">
+                    <td className="px-8 py-5 text-gray-300">
                       {s.email}
                     </td>
 
-                    <td className="px-6 py-4 text-gray-300">
+                    <td className="px-8 py-5 text-gray-300">
                       {s.department}
                     </td>
 
-                    <td className="px-6 py-4">
-                      <span className="px-3 py-1 text-xs rounded-full bg-gray-700 text-gray-300">
+                    <td className="px-8 py-5">
+                      <span className="px-3 py-1 text-xs rounded-full bg-gray-700/70 text-gray-300">
                         Inactive
                       </span>
                     </td>
@@ -107,56 +78,12 @@ function Students() {
           </table>
         </div>
 
-        {/* Mobile Cards */}
-        <div className="md:hidden divide-y divide-gray-700">
-          {loading ? (
-            <StudentCardSkeleton />
-          ) : students.length === 0 ? (
-            <div className="p-4 text-center text-gray-400">
-              No students found
-            </div>
-          ) : (
-            students.map((s) => (
-              <div key={s.id} className="p-4 space-y-3">
-                <div className="flex justify-between">
-                  <span className="text-gray-400 text-sm">ID</span>
-                  <span>{s.id}</span>
-                </div>
-
-                <div className="flex justify-between">
-                  <span className="text-gray-400 text-sm">Name</span>
-                  <Link
-                    to={`/admin/student/edit/${s.id}`}
-                    className="text-blue-400"
-                  >
-                    {s.username}
-                  </Link>
-                </div>
-
-                <div className="flex justify-between">
-                  <span className="text-gray-400 text-sm">Email</span>
-                  <span>{s.email}</span>
-                </div>
-
-                <div className="flex justify-between">
-                  <span className="text-gray-400 text-sm">Department</span>
-                  <span>{s.department}</span>
-                </div>
-
-                <span className="inline-block text-xs bg-gray-700 px-3 py-1 rounded-full">
-                  Inactive
-                </span>
-              </div>
-            ))
-          )}
-        </div>
-
         {/* Pagination */}
-        <div className="flex justify-end items-center gap-2 px-6 py-4 border-t border-gray-700">
+        <div className="flex justify-end items-center gap-3 px-8 py-5">
           <button
             disabled={page === 1}
             onClick={() => setPage(page - 1)}
-            className="px-3 py-1 rounded-md bg-gray-700 hover:bg-gray-600 disabled:opacity-40 transition"
+            className="px-4 py-2 rounded-lg bg-gray-700/70 hover:bg-gray-600 transition disabled:opacity-40"
           >
             Prev
           </button>
@@ -165,10 +92,10 @@ function Students() {
             <button
               key={i}
               onClick={() => setPage(i + 1)}
-              className={`px-3 py-1 rounded-md transition ${
+              className={`px-4 py-2 rounded-lg transition ${
                 page === i + 1
-                  ? "bg-blue-600 text-white"
-                  : "bg-gray-700 hover:bg-gray-600"
+                  ? "bg-blue-600 shadow-lg"
+                  : "bg-gray-700/70 hover:bg-gray-600"
               }`}
             >
               {i + 1}
@@ -178,14 +105,12 @@ function Students() {
           <button
             disabled={page === totalPages}
             onClick={() => setPage(page + 1)}
-            className="px-3 py-1 rounded-md bg-gray-700 hover:bg-gray-600 disabled:opacity-40 transition"
+            className="px-4 py-2 rounded-lg bg-gray-700/70 hover:bg-gray-600 transition disabled:opacity-40"
           >
             Next
           </button>
         </div>
       </div>
     </div>
-  );
-}
-
-export default Students;
+  </div>
+);
