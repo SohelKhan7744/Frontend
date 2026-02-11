@@ -33,162 +33,92 @@ function Students() {
   };
 
  return (
-  <div className="w-full">
+ <div className="w-full">
+  {/* Header */}
+  <div className="mb-6">
+    <h1 className="text-2xl font-semibold text-slate-200">
+      Students
+    </h1>
+    <p className="text-slate-400 text-sm">
+      Manage registered students
+    </p>
+  </div>
 
-    {/* Header */}
-    <div className="mb-6">
-      <h1 className="text-2xl font-semibold text-slate-200">
-        Students
-      </h1>
-      <p className="text-slate-400 text-sm">
-        Manage registered students
-      </p>
-    </div>
-
-    {/* Card */}
-    <div className="bg-[#111c2d] border border-[#1e293b] rounded-xl shadow-lg overflow-hidden">
-
-      {/* Desktop Table */}
-      <div className="hidden md:block overflow-x-auto">
-        <table className="w-full text-sm">
-          <thead>
-            <tr className="border-b border-[#1e293b] text-slate-400">
-              <th className="px-6 py-4 text-left font-medium">ID</th>
-              <th className="px-6 py-4 text-left font-medium">Name</th>
-              <th className="px-6 py-4 text-left font-medium">Email</th>
-              <th className="px-6 py-4 text-left font-medium">Department</th>
-              <th className="px-6 py-4 text-left font-medium">Status</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {loading ? (
-              <StudentTableSkeleton />
-            ) : students.length === 0 ? (
-              <tr>
-                <td colSpan="5" className="px-6 py-8 text-center text-slate-400">
-                  No students found
-                </td>
-              </tr>
-            ) : (
-              students.map((s) => (
-                <tr
-                  key={s.id}
-                  className="border-b border-[#1e293b] hover:bg-[#1a2436] transition"
-                >
-                  <td className="px-6 py-4 text-slate-300">{s.id}</td>
-
-                  <td className="px-6 py-4">
-                    <Link
-                      to={`/admin/student/edit/${s.id}`}
-                      className="text-blue-400 hover:text-blue-300 transition"
-                    >
-                      {s.username}
-                    </Link>
-                  </td>
-
-                  <td className="px-6 py-4 text-slate-300">
-                    {s.email}
-                  </td>
-
-                  <td className="px-6 py-4 text-slate-300">
-                    {s.department}
-                  </td>
-
-                  <td className="px-6 py-4">
-                    <span className="px-3 py-1 text-xs rounded-full bg-[#1a2436] text-slate-300 border border-[#243244]">
-                      Inactive
-                    </span>
-                  </td>
-                </tr>
-              ))
-            )}
-          </tbody>
-        </table>
-      </div>
-
-      {/* Mobile Cards */}
-      <div className="md:hidden divide-y divide-[#1e293b]">
-        {loading ? (
-          <StudentCardSkeleton />
-        ) : students.length === 0 ? (
-          <div className="p-6 text-center text-slate-400">
-            No students found
-          </div>
-        ) : (
-          students.map((s) => (
-            <div
+  {/* Card Wrapper */}
+  <div className="bg-[#111c2d] border border-[#1e293b] rounded-lg shadow-md overflow-hidden">
+    
+    {/* Table */}
+    <div className="hidden md:block overflow-x-auto">
+      <table className="w-full text-sm text-slate-300">
+        <thead>
+          <tr className="border-b border-[#1e293b] text-slate-400 bg-[#1a2436]">
+            <th className="px-6 py-3 text-left font-medium">ID</th>
+            <th className="px-6 py-3 text-left font-medium">Name</th>
+            <th className="px-6 py-3 text-left font-medium">Email</th>
+            <th className="px-6 py-3 text-left font-medium">Department</th>
+            <th className="px-6 py-3 text-left font-medium">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {students.map((s) => (
+            <tr
               key={s.id}
-              className="p-5 hover:bg-[#1a2436] transition"
+              className="border-b border-[#1e293b] hover:bg-[#243244] transition"
             >
-              <div className="flex justify-between mb-2">
-                <span className="text-slate-400 text-sm">ID</span>
-                <span className="text-slate-300">{s.id}</span>
-              </div>
-
-              <div className="flex justify-between mb-2">
-                <span className="text-slate-400 text-sm">Name</span>
+              <td className="px-6 py-3">{s.id}</td>
+              <td className="px-6 py-3">
                 <Link
                   to={`/admin/student/edit/${s.id}`}
-                  className="text-blue-400"
+                  className="text-blue-400 hover:text-blue-300 transition"
                 >
                   {s.username}
                 </Link>
-              </div>
+              </td>
+              <td className="px-6 py-3">{s.email}</td>
+              <td className="px-6 py-3">{s.department}</td>
+              <td className="px-6 py-3">
+                <span className="px-3 py-1 text-xs rounded-full bg-[#1a2436] text-slate-300 border border-[#243244]">
+                  Inactive
+                </span>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
 
-              <div className="flex justify-between mb-2">
-                <span className="text-slate-400 text-sm">Email</span>
-                <span className="text-slate-300">{s.email}</span>
-              </div>
-
-              <div className="flex justify-between mb-3">
-                <span className="text-slate-400 text-sm">Department</span>
-                <span className="text-slate-300">{s.department}</span>
-              </div>
-
-              <span className="inline-block text-xs bg-[#1a2436] px-3 py-1 rounded-full border border-[#243244] text-slate-300">
-                Inactive
-              </span>
-            </div>
-          ))
-        )}
-      </div>
-
-      {/* Pagination */}
-      <div className="flex justify-end items-center gap-3 px-6 py-4 border-t border-[#1e293b]">
+    {/* Pagination */}
+    <div className="flex justify-end items-center gap-3 px-6 py-4 border-t border-[#1e293b] bg-[#111c2d]">
+      <button
+        disabled={page === 1}
+        onClick={() => setPage(page - 1)}
+        className="px-4 py-2 rounded-md bg-[#1a2436] hover:bg-[#243244] text-slate-300 disabled:opacity-40 transition"
+      >
+        Prev
+      </button>
+      {[...Array(totalPages)].map((_, i) => (
         <button
-          disabled={page === 1}
-          onClick={() => setPage(page - 1)}
-          className="px-4 py-2 rounded-lg bg-[#1a2436] hover:bg-[#243244] text-slate-300 disabled:opacity-40 transition"
+          key={i}
+          onClick={() => setPage(i + 1)}
+          className={`px-4 py-2 rounded-md transition ${
+            page === i + 1
+              ? "bg-blue-600 text-white"
+              : "bg-[#1a2436] hover:bg-[#243244] text-slate-300"
+          }`}
         >
-          Prev
+          {i + 1}
         </button>
-
-        {[...Array(totalPages)].map((_, i) => (
-          <button
-            key={i}
-            onClick={() => setPage(i + 1)}
-            className={`px-4 py-2 rounded-lg transition ${
-              page === i + 1
-                ? "bg-blue-600 text-white"
-                : "bg-[#1a2436] hover:bg-[#243244] text-slate-300"
-            }`}
-          >
-            {i + 1}
-          </button>
-        ))}
-
-        <button
-          disabled={page === totalPages}
-          onClick={() => setPage(page + 1)}
-          className="px-4 py-2 rounded-lg bg-[#1a2436] hover:bg-[#243244] text-slate-300 disabled:opacity-40 transition"
-        >
-          Next
-        </button>
-      </div>
-
+      ))}
+      <button
+        disabled={page === totalPages}
+        onClick={() => setPage(page + 1)}
+        className="px-4 py-2 rounded-md bg-[#1a2436] hover:bg-[#243244] text-slate-300 disabled:opacity-40 transition"
+      >
+        Next
+      </button>
     </div>
   </div>
+</div>
 );
 
 }
