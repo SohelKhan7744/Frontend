@@ -1,4 +1,38 @@
-return (
+import React, { useEffect, useState } from "react";
+import api from "./axios";
+import { Link } from "react-router-dom";
+import StudentCardSkeleton from "./StudentSkeleton";
+import StudentTableSkeleton from "./StudentTableSkeleton";
+
+function Students() {
+  const [students, setStudents] = useState([]);
+  const [page, setPage] = useState(1);
+  const limit = 10;
+  const [total, setTotal] = useState(0);
+  const [loading, setLoading] = useState(false);
+
+  const totalPages = Math.ceil(total / limit);
+
+  useEffect(() => {
+    fetchStudents(page);
+  }, [page]);
+
+  const fetchStudents = async (pageNumber) => {
+    try {
+      setLoading(true);
+      const res = await api.get(
+        `/admin/student?page=${pageNumber}&limit=${limit}`
+      );
+      setStudents(res.data.data);
+      setTotal(res.data.total);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
   <div className="relative px-8 py-6">
 
     {/* Soft Gradient Background Like Dashboard */}
@@ -114,3 +148,4 @@ return (
     </div>
   </div>
 );
+}
