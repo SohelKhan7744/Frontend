@@ -2,12 +2,14 @@ import React, { Component } from 'react'
 import { useEffect } from "react";
 import $ from "jquery";
 
-useEffect(() => {
-  $('[data-widget="pushmenu"]').PushMenu();
-}, []);
 
 
 function Header () {
+
+  useEffect(() => {
+  $('[data-widget="pushmenu"]').PushMenu();
+}, []);
+
     return (
       <div>
  <nav className="main-header navbar navbar-expand navbar-white navbar-light">
