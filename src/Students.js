@@ -117,6 +117,52 @@ function Students() {
         Next
       </button>
     </div>
+    {/* Mobile Cards */}
+<div className="md:hidden divide-y divide-[#1e293b]">
+  {loading ? (
+    <StudentCardSkeleton />
+  ) : students.length === 0 ? (
+    <div className="p-6 text-center text-slate-400">
+      No students found
+    </div>
+  ) : (
+    students.map((s) => (
+      <div
+        key={s.id}
+        className="p-5 hover:bg-[#1a2436] transition"
+      >
+        <div className="flex justify-between mb-2">
+          <span className="text-slate-400 text-sm">ID</span>
+          <span className="text-slate-300">{s.id}</span>
+        </div>
+
+        <div className="flex justify-between mb-2">
+          <span className="text-slate-400 text-sm">Name</span>
+          <Link
+            to={`/admin/student/edit/${s.id}`}
+            className="text-blue-400"
+          >
+            {s.username}
+          </Link>
+        </div>
+
+        <div className="flex justify-between mb-2">
+          <span className="text-slate-400 text-sm">Email</span>
+          <span className="text-slate-300">{s.email}</span>
+        </div>
+
+        <div className="flex justify-between mb-3">
+          <span className="text-slate-400 text-sm">Department</span>
+          <span className="text-slate-300">{s.department}</span>
+        </div>
+
+        <span className="inline-block text-xs bg-[#1a2436] px-3 py-1 rounded-full border border-[#243244] text-slate-300">
+          Inactive
+        </span>
+      </div>
+    ))
+  )}
+</div>
   </div>
 </div>
 );
