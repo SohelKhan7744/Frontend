@@ -1,14 +1,11 @@
 import React, { Component } from 'react'
-import { useEffect } from "react";
+
 
 
 
 function Header () {
 
-  useEffect(() => {
-  $('[data-widget="pushmenu"]').PushMenu();
-}, []);
-
+  
     return (
       <div>
  <nav className="main-header navbar navbar-expand navbar-white navbar-light">
