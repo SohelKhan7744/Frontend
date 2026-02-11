@@ -1,7 +1,13 @@
 import React, { Component } from 'react'
+import { useEffect } from "react";
+import $ from "jquery";
 
-export default class Header extends Component {
-  render() {
+useEffect(() => {
+  $('[data-widget="pushmenu"]').PushMenu();
+}, []);
+
+
+function Header () {
     return (
       <div>
  <nav className="main-header navbar navbar-expand navbar-white navbar-light">
@@ -141,4 +147,4 @@ export default class Header extends Component {
 </div>
     )
   }
-}
+export default Header;
