@@ -32,121 +32,164 @@ function Students() {
     }
   };
 
-  return (
-  <div className="relative px-8 py-6">
+ return (
+  <div className="w-full">
 
-    {/* Soft Gradient Background Like Dashboard */}
-    <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-gray-850 to-gray-900 opacity-70 pointer-events-none"></div>
+    {/* Header */}
+    <div className="mb-6">
+      <h1 className="text-2xl font-semibold text-slate-200">
+        Students
+      </h1>
+      <p className="text-slate-400 text-sm">
+        Manage registered students
+      </p>
+    </div>
 
-    <div className="relative z-10">
+    {/* Card */}
+    <div className="bg-[#111c2d] border border-[#1e293b] rounded-xl shadow-lg overflow-hidden">
 
-      {/* Header */}
-      <div className="mb-8">
-        <h1 className="text-3xl font-semibold text-white">
-          Students
-        </h1>
-        <p className="text-gray-400 text-sm mt-1">
-          Manage registered students
-        </p>
-      </div>
+      {/* Desktop Table */}
+      <div className="hidden md:block overflow-x-auto">
+        <table className="w-full text-sm">
+          <thead>
+            <tr className="border-b border-[#1e293b] text-slate-400">
+              <th className="px-6 py-4 text-left font-medium">ID</th>
+              <th className="px-6 py-4 text-left font-medium">Name</th>
+              <th className="px-6 py-4 text-left font-medium">Email</th>
+              <th className="px-6 py-4 text-left font-medium">Department</th>
+              <th className="px-6 py-4 text-left font-medium">Status</th>
+            </tr>
+          </thead>
 
-      {/* Glass Card */}
-      <div className="bg-gray-800/60 backdrop-blur-md border border-gray-700/50 rounded-2xl shadow-2xl overflow-hidden">
-
-        {/* Table */}
-        <div className="overflow-x-auto">
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="border-b border-gray-700/60 text-gray-300">
-                <th className="px-8 py-4 text-left font-medium">ID</th>
-                <th className="px-8 py-4 text-left font-medium">Name</th>
-                <th className="px-8 py-4 text-left font-medium">Email</th>
-                <th className="px-8 py-4 text-left font-medium">Department</th>
-                <th className="px-8 py-4 text-left font-medium">Status</th>
+          <tbody>
+            {loading ? (
+              <StudentTableSkeleton />
+            ) : students.length === 0 ? (
+              <tr>
+                <td colSpan="5" className="px-6 py-8 text-center text-slate-400">
+                  No students found
+                </td>
               </tr>
-            </thead>
+            ) : (
+              students.map((s) => (
+                <tr
+                  key={s.id}
+                  className="border-b border-[#1e293b] hover:bg-[#1a2436] transition"
+                >
+                  <td className="px-6 py-4 text-slate-300">{s.id}</td>
 
-            <tbody>
-              {loading ? (
-                <StudentTableSkeleton />
-              ) : students.length === 0 ? (
-                <tr>
-                  <td colSpan="5" className="px-8 py-8 text-center text-gray-400">
-                    No students found
+                  <td className="px-6 py-4">
+                    <Link
+                      to={`/admin/student/edit/${s.id}`}
+                      className="text-blue-400 hover:text-blue-300 transition"
+                    >
+                      {s.username}
+                    </Link>
+                  </td>
+
+                  <td className="px-6 py-4 text-slate-300">
+                    {s.email}
+                  </td>
+
+                  <td className="px-6 py-4 text-slate-300">
+                    {s.department}
+                  </td>
+
+                  <td className="px-6 py-4">
+                    <span className="px-3 py-1 text-xs rounded-full bg-[#1a2436] text-slate-300 border border-[#243244]">
+                      Inactive
+                    </span>
                   </td>
                 </tr>
-              ) : (
-                students.map((s) => (
-                  <tr
-                    key={s.id}
-                    className="border-b border-gray-700/40 hover:bg-gray-700/30 transition duration-200"
-                  >
-                    <td className="px-8 py-5">{s.id}</td>
-
-                    <td className="px-8 py-5">
-                      <Link
-                        to={`/admin/student/edit/${s.id}`}
-                        className="text-blue-400 hover:text-blue-300 transition"
-                      >
-                        {s.username}
-                      </Link>
-                    </td>
-
-                    <td className="px-8 py-5 text-gray-300">
-                      {s.email}
-                    </td>
-
-                    <td className="px-8 py-5 text-gray-300">
-                      {s.department}
-                    </td>
-
-                    <td className="px-8 py-5">
-                      <span className="px-3 py-1 text-xs rounded-full bg-gray-700/70 text-gray-300">
-                        Inactive
-                      </span>
-                    </td>
-                  </tr>
-                ))
-              )}
-            </tbody>
-          </table>
-        </div>
-
-        {/* Pagination */}
-        <div className="flex justify-end items-center gap-3 px-8 py-5">
-          <button
-            disabled={page === 1}
-            onClick={() => setPage(page - 1)}
-            className="px-4 py-2 rounded-lg bg-gray-700/70 hover:bg-gray-600 transition disabled:opacity-40"
-          >
-            Prev
-          </button>
-
-          {[...Array(totalPages)].map((_, i) => (
-            <button
-              key={i}
-              onClick={() => setPage(i + 1)}
-              className={`px-4 py-2 rounded-lg transition ${
-                page === i + 1
-                  ? "bg-blue-600 shadow-lg"
-                  : "bg-gray-700/70 hover:bg-gray-600"
-              }`}
-            >
-              {i + 1}
-            </button>
-          ))}
-
-          <button
-            disabled={page === totalPages}
-            onClick={() => setPage(page + 1)}
-            className="px-4 py-2 rounded-lg bg-gray-700/70 hover:bg-gray-600 transition disabled:opacity-40"
-          >
-            Next
-          </button>
-        </div>
+              ))
+            )}
+          </tbody>
+        </table>
       </div>
+
+      {/* Mobile Cards */}
+      <div className="md:hidden divide-y divide-[#1e293b]">
+        {loading ? (
+          <StudentCardSkeleton />
+        ) : students.length === 0 ? (
+          <div className="p-6 text-center text-slate-400">
+            No students found
+          </div>
+        ) : (
+          students.map((s) => (
+            <div
+              key={s.id}
+              className="p-5 hover:bg-[#1a2436] transition"
+            >
+              <div className="flex justify-between mb-2">
+                <span className="text-slate-400 text-sm">ID</span>
+                <span className="text-slate-300">{s.id}</span>
+              </div>
+
+              <div className="flex justify-between mb-2">
+                <span className="text-slate-400 text-sm">Name</span>
+                <Link
+                  to={`/admin/student/edit/${s.id}`}
+                  className="text-blue-400"
+                >
+                  {s.username}
+                </Link>
+              </div>
+
+              <div className="flex justify-between mb-2">
+                <span className="text-slate-400 text-sm">Email</span>
+                <span className="text-slate-300">{s.email}</span>
+              </div>
+
+              <div className="flex justify-between mb-3">
+                <span className="text-slate-400 text-sm">Department</span>
+                <span className="text-slate-300">{s.department}</span>
+              </div>
+
+              <span className="inline-block text-xs bg-[#1a2436] px-3 py-1 rounded-full border border-[#243244] text-slate-300">
+                Inactive
+              </span>
+            </div>
+          ))
+        )}
+      </div>
+
+      {/* Pagination */}
+      <div className="flex justify-end items-center gap-3 px-6 py-4 border-t border-[#1e293b]">
+        <button
+          disabled={page === 1}
+          onClick={() => setPage(page - 1)}
+          className="px-4 py-2 rounded-lg bg-[#1a2436] hover:bg-[#243244] text-slate-300 disabled:opacity-40 transition"
+        >
+          Prev
+        </button>
+
+        {[...Array(totalPages)].map((_, i) => (
+          <button
+            key={i}
+            onClick={() => setPage(i + 1)}
+            className={`px-4 py-2 rounded-lg transition ${
+              page === i + 1
+                ? "bg-blue-600 text-white"
+                : "bg-[#1a2436] hover:bg-[#243244] text-slate-300"
+            }`}
+          >
+            {i + 1}
+          </button>
+        ))}
+
+        <button
+          disabled={page === totalPages}
+          onClick={() => setPage(page + 1)}
+          className="px-4 py-2 rounded-lg bg-[#1a2436] hover:bg-[#243244] text-slate-300 disabled:opacity-40 transition"
+        >
+          Next
+        </button>
+      </div>
+
     </div>
   </div>
 );
+
 }
 export default Students;
