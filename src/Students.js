@@ -45,7 +45,7 @@ function Students() {
   </div>
 
   {/* Card Wrapper */}
-  <div className="bg-[#111c2d] border border-[#1e293b] rounded-lg shadow-md overflow-hidden">
+  <div className="bg-[#222222] border border-[#1e293b] rounded-lg shadow-md overflow-hidden">
     
     {/* Table */}
     <div className="hidden md:block overflow-x-auto">
