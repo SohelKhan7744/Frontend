@@ -51,7 +51,7 @@ function Students() {
     <div className="hidden md:block overflow-x-auto">
       <table className="w-full text-sm text-slate-300">
         <thead>
-          <tr className="border-b border-[#1e293b] text-slate-400 bg-[#1a2436]">
+          <tr className="border-b border-[#435663] text-slate-400 bg-[#313647]">
             <th className="px-6 py-3 text-left font-medium">ID</th>
             <th className="px-6 py-3 text-left font-medium">Name</th>
             <th className="px-6 py-3 text-left font-medium">Email</th>
