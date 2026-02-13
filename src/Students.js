@@ -88,7 +88,7 @@ function Students() {
     </div>
 
     {/* Pagination */}
-    <div className="flex justify-end items-center gap-3 px-6 py-4 border-t border-[#1e293b] bg-[#222222]">
+    <div className="flex justify-end items-center gap-3 px-6 py-4 border-t border-[#1e293b] bg-[#25343F]">
       <button
         disabled={page === 1}
         onClick={() => setPage(page - 1)}
